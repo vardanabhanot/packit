@@ -76,7 +76,7 @@ func printLogo() {
 |_|   \__,_|\___|_|\_\_|\__|`
 
 	fmt.Println(Logo)
-	fmt.Println("Packit an archive creator")
+	fmt.Println("Packit an archive creator v" + version)
 
 }
 
