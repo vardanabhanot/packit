@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-const version string = "0.0.1"
+const version string = "0.0.2"
 
 type archive struct {
 	filename string
@@ -137,6 +137,9 @@ func (a *archive) createZipFiles(zipWriter *zip.Writer) {
 			return err
 		}
 
+		// Converting the windows \ to / as per our need for the Zip specs
+		relPath = filepath.ToSlash(relPath)
+
 		// We dont want to zip the zip file itself
 		if relPath == a.filename {
 			return nil
@@ -158,6 +161,12 @@ func (a *archive) createZipFiles(zipWriter *zip.Writer) {
 		}
 
 		if d.IsDir() {
+			if relPath == "." {
+				return nil
+			}
+
+			// the slash is to add this is a dir in the zip
+			zipWriter.Create(relPath + "/")
 			return nil
 		}
 
